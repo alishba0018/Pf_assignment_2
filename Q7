@@ -1,0 +1,59 @@
+/* PF THEORY
+   NAME: ALISHBA ZEHRA
+   SECTION: BAI-1A
+   FINDING A STRING IN A RANDOM ARRAY */
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
+#include <ctype.h>
+#define rows 6
+#define columns 5
+#define max_lenght 20
+//generating random array
+void random_array(char array[rows][columns]){
+    for(int i=0;i<rows;i++){
+        for(int j=0;j<columns;j++){
+            array[i][j] = 'A' + rand() % 26; //gives any random uppercase letter 
+        }
+    strcpy(array[rows - 1], "1234"); //last row will now contain student ID    
+    }
+}
+//printing array
+void print_array(char array[rows][columns]){
+    for(int i=0;i<rows;i++){
+        for(int j=0;j<columns;j++){
+            printf("|%c|\t",array[i][j]); //prints array in tabular form
+        }
+    printf("\n");
+}
+}
+//searching string
+int search_string(char array[rows][columns], const char *search_str) {
+    for (int i = 0; i < rows; i++)
+        if (strstr(array[i], search_str)) //searches if string exists
+            return 1; // Found
+    return 0; // Not found
+}
+int main() {
+    char array[rows][columns], user_input[max_lenght];
+    int score = 0;
+
+    srand(time(NULL)); //randomizes array each time you run
+
+    while (1) {
+        random_array(array);
+        print_array(array); //runs in an infinite loop
+
+        while (1) {
+            printf("Enter a string to search/type 'END' to stop (enter string in capital letters): ");
+            scanf("%s", user_input);
+
+            if (strcmp(user_input, "END") == 0) return 0; //ending if end is printed
+            score += search_string(array, user_input) ? 1 : -1; //string exists? score+1. if not? score-1.
+            printf("Current score: %d\n", score);
+        }
+    }
+
+    return 0;
+}
