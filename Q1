@@ -1,0 +1,31 @@
+/* PF THEORY
+   NAME: ALISHBA ZEHRA
+   SECTION: BAI-1A
+   FINDING SMALLEST ELEMENT IN A N ARRAY */
+#include <stdio.h>
+
+int main(){
+    int smallest,a[5]={};
+    printf("enter the elements of array: \n");
+    //scanning array
+     for(int i=0;i<5;i++){
+         scanf("%d",&a[i]);
+         if(a[i]>=9999){
+             printf("enter a number less than 9999. \n");
+             return 0;
+         }
+     }
+    //printing array
+    for(int i=0;i<5;i++){
+        printf("element %d: %d \n",i,a[i]);
+    }
+    //checking smallest element
+    smallest = a[0];
+    for(int i=0;i<5;i++){
+       if(a[i]<smallest){
+           smallest=a[i];
+       }
+    }
+    printf("smallest number is: %d",smallest);
+    return 0;
+}
