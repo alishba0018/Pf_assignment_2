@@ -1,11 +1,11 @@
 /* PF THEORY
    NAME: ALISHBA ZEHRA
    SECTION: BAI-1A
-   FINDING SMALLEST ELEMENT IN A N ARRAY */
+   FINDING SECOND SMALLEST ELEMENT IN A N ARRAY */
 #include <stdio.h>
 
 int main(){
-    int smallest,a[5]={};
+    int first_smallest,second_smallest,a[5]={};
     printf("enter the elements of array: \n");
     //scanning array
      for(int i=0;i<5;i++){
@@ -19,13 +19,16 @@ int main(){
     for(int i=0;i<5;i++){
         printf("element %d: %d \n",i,a[i]);
     }
-    //checking smallest element
-    smallest = a[0];
-    for(int i=0;i<5;i++){
-       if(a[i]<smallest){
-           smallest=a[i];
-       }
+    //checking second smallest element
+    first_smallest=second_smallest = 9999;
+    for (int i = 0; i < 5; i++) {
+        if (a[i] < first_smallest) {
+            second_smallest = first_smallest;
+            first_smallest = a[i];
+        } else if (a[i] < second_smallest && a[i] != first_smallest) {
+            second_smallest = a[i];
+        }
     }
-    printf("smallest number is: %d",smallest);
+    printf("second smallest number is: %d",second_smallest);
     return 0;
 }
