@@ -6,54 +6,95 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-#include <ctype.h>
-#define rows 6
-#define columns 5
-#define max_lenght 20
-//generating random array
-void random_array(char array[rows][columns]){
-    for(int i=0;i<rows;i++){
-        for(int j=0;j<columns;j++){
-            array[i][j] = 'A' + rand() % 26; //gives any random uppercase letter 
+
+#define ROWS 6
+#define COLUMNS 6  // Increased by 1 to account for the null terminator
+#define MAX_LENGTH 20
+
+// Function to generate a random array
+void random_array(char array[ROWS][COLUMNS]) {
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLUMNS - 1; j++) {  // Leave space for the null terminator
+            array[i][j] = 'A' + rand() % 26;  // Generates a random uppercase letter
         }
-    strcpy(array[rows - 1], "1234"); //last row will now contain student ID    
+        array[i][COLUMNS - 1] = '\0';  // Null-terminate the string in each row
+    }
+    strcpy(array[ROWS - 1], "1234");  // Last row will contain student ID
+}
+
+// Function to print the array
+void print_array(char array[ROWS][COLUMNS]) {
+    printf("\nArray (Randomized):\n");
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLUMNS - 1; j++) {  // Print without the null terminator
+            printf("|%c|\t", array[i][j]);
+        }
+        printf("\n");
     }
 }
-//printing array
-void print_array(char array[rows][columns]){
-    for(int i=0;i<rows;i++){
-        for(int j=0;j<columns;j++){
-            printf("|%c|\t",array[i][j]); //prints array in tabular form
+
+// Function to search for a string in the array
+int search_string(char array[ROWS][COLUMNS], const char *search_str) {
+    // Check horizontally (row by row)
+    for (int i = 0; i < ROWS; i++) {
+        if (strstr(array[i], search_str))  // Search if string exists in the row
+            return 1;  // Found horizontally
+    }
+
+    // Check vertically (column by column)
+    for (int j = 0; j < COLUMNS - 1; j++) {  // Don't check the last column (it's the null terminator)
+        char vertical_str[ROWS + 1];  // Buffer to store the vertical string
+        vertical_str[ROWS] = '\0';  // Null-terminate the vertical string
+
+        // Build the vertical string for the current column
+        for (int i = 0; i < ROWS; i++) {
+            vertical_str[i] = array[i][j];
         }
-    printf("\n");
+
+        // Search for the string in the vertical string
+        if (strstr(vertical_str, search_str)) {
+            return 1;  // Found vertically
+        }
+    }
+
+    return 0;  // Not found horizontally or vertically
 }
-}
-//searching string
-int search_string(char array[rows][columns], const char *search_str) {
-    for (int i = 0; i < rows; i++)
-        if (strstr(array[i], search_str)) //searches if string exists
-            return 1; // Found
-    return 0; // Not found
-}
+
 int main() {
-    char array[rows][columns], user_input[max_lenght];
+    char array[ROWS][COLUMNS], user_input[MAX_LENGTH];
     int score = 0;
-
-    srand(time(NULL)); //randomizes array each time you run
-
+    
+    srand(time(NULL));  // Seed the random number generator
+    
+    // Loop until user wants to exit
     while (1) {
-        random_array(array);
-        print_array(array); //runs in an infinite loop
+        random_array(array);  // Generate a new random array
+        print_array(array);   // Display the generated array
 
+        // Loop to handle user input
         while (1) {
-            printf("Enter a string to search/type 'END' to stop (enter string in capital letters): ");
-            scanf("%s", user_input);
+            printf("\nEnter a string to search/type 'END' to stop (enter string in capital letters): ");
+            scanf("%s", user_input);  // Take user input
 
-            if (strcmp(user_input, "END") == 0) return 0; //ending if end is printed
-            score += search_string(array, user_input) ? 1 : -1; //string exists? score+1. if not? score-1.
-            printf("Current score: %d\n", score);
+            // Check for exit condition
+            if (strcmp(user_input, "END") == 0) { 
+                printf("Final Score: %d\n", score); // Print the final score before exiting
+                return 0;  // Exit if 'END' is typed
+            }
+
+            // Debugging output
+            printf("Searching for string: %s\n", user_input);
+
+            // Update score based on whether the string is found or not
+            if (search_string(array, user_input)) {
+                score += 1;  // Increment score if found
+                printf("String '%s' found! Current score: %d\n", user_input, score);
+            } else {
+                score -= 1;  // Decrement score if not found
+                printf("String '%s' not found. Current score: %d\n", user_input, score);
+            }
         }
     }
-
+    
     return 0;
 }
