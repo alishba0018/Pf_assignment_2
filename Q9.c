@@ -5,23 +5,24 @@ void move_player(char grid[5][5], int *player_x, int *player_y, char direction) 
     int new_y = *player_y;
     switch(direction){
     case 'W': //move up
-    new_x--;
-    break;
+        new_x--;
+        break;
     case 'S': //move down
-    new_x++;
-    break;
+        new_x++;
+        break;
     case 'A': //move left
-    new_y--;
-    break;
+        new_y--;
+        break;
     case 'D': //move right
-    new_y++;
-    break;
+        new_y++;
+        break;
     case 'Q': //quit
-    break;
+        break;
     default:
-    printf("invalid move");
-}
-if (new_x >= 0 && new_x < 5 && new_y >= 0 && new_y < 5) {
+        printf("Invalid move\n");
+    }
+
+    if (new_x >= 0 && new_x < 5 && new_y >= 0 && new_y < 5) {
         if (grid[new_x][new_y] == 'X') {
             printf("You cannot move into an obstacle!\n");
         } else {
@@ -38,36 +39,36 @@ if (new_x >= 0 && new_x < 5 && new_y >= 0 && new_y < 5) {
     } else {
         printf("Invalid move! You're trying to move out of bounds.\n");
     }
-}    
-
-
-int main(){
-    char grid[5][5] = {
-{' ', ' ', 'I', 'X', ' '},
-{' ', 'X', ' ', ' ', ' '},
-{'I', ' ', 'X', 'X', ' '},
-{' ', ' ', ' ', 'I', 'X'},
-{' ', 'X', ' ', ' ', 'P'}
-};
-//display grid
-int i,j;
-for(i=0;i<5;i++){
-    for(j=0;j<5;j++){
-        printf("%c",grid[5][5]);
-    }
-    printf("\n");
 }
-int player_x = 4; // Player's starting position (row)
+
+// Function to print the grid
+void print_grid(char grid[5][5]) {
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            printf("%c ", grid[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    char grid[5][5] = {
+        {' ', ' ', 'I', 'X', ' '},
+        {' ', 'X', ' ', ' ', ' '},
+        {'I', ' ', 'X', 'X', ' '},
+        {' ', ' ', ' ', 'I', 'X'},
+        {' ', 'X', ' ', ' ', 'P'}
+    };
+
+    int player_x = 4; // Player's starting position (row)
     int player_y = 4; // Player's starting position (column)
     char command;
 
+    // Game loop
     while (1) {
-        for(i=0;i<5;i++){
-          for(j=0;j<5;j++){
-        printf("%c",grid[5][5]);
-    }
-    printf("\n");
-}
+        // Print the grid
+        print_grid(grid);
+        
         printf("Enter your move (W: up, S: down, A: left, D: right, Q: quit): ");
         scanf(" %c", &command); // Note the space before %c to ignore previous newline
 
@@ -79,6 +80,7 @@ int player_x = 4; // Player's starting position (row)
         move_player(grid, &player_x, &player_y, command);
     }
 
-
     return 0;
 }
+
+      
